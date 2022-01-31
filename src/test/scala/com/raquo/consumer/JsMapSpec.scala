@@ -1,6 +1,6 @@
-package com.raquo.ew
+package com.raquo.consumer
 
-import com.raquo.ew.SjsConverters.enrichSjsMap
+import com.raquo.ew._
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.scalajs.js
@@ -33,15 +33,15 @@ class JsMapSpec extends AnyFunSpec {
 
     // --
 
-    val sjsM = m.asScalaJsSet
+    val sjsM = m.asScalaJs
     assert(sjsM.size == 2)
 
     assert(sjsM.contains(foo1))
     assert(sjsM.contains(foo2))
     assert(!sjsM.contains(foo1copy)) // Scala.js apparently does not have Scala semantics here either
 
-    assert(sjsM.asJsMap eq m)
-    assert(JsMap.fromScalaJs(sjsM) eq m)
+    assert(sjsM.ew eq m)
+    assert(JsMap.from(sjsM) eq m)
 
     // --
 

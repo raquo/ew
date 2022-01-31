@@ -27,15 +27,14 @@ Despite the inefficiency, this works just fine for most users most of the time. 
 
 ## Documentation
 
-Available interfaces: [Iterable](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsIterable.scala), [Array](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsArray.scala), [Set](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsSet.scala), [Map](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsMap.scala).
+Available interfaces: [String](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsString.scala), [Iterable](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsIterable.scala), [Array](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsArray.scala), [Set](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsSet.scala), [Map](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsMap.scala).
 
-The interfaces defined in **ew** follow the corresponding native JS types very closely. We keep JS names for methods even if they go against Scala naming conventions (so we have `Array.includes`, not `Array.contains`). Since such methods lack Scala semantics, we _don't_ actually want to make them look at home in Scala.
+The interfaces defined in **ew** follow the corresponding native JS types very closely. We keep JS names for methods even if they go against Scala naming conventions (so we have `Array.forEach`, not `Array.foreach`). Since such methods lack Scala semantics, we _don't_ actually want to make them look at home in Scala.
 
-See comments in the code for any details. Don't expect a comprehensive explanation of JS semantics, it's something you need to know (or test) yourself.
+See comments in the code for any details. Don't expect a comprehensive explanation of JS semantics, it's something you need to know (or test) yourself. See also how this library is used in [Airstream](https://github.com/raquo/Airstream) and [Laminar](https://github.com/raquo/Laminar).
 
-Import `com.raquo.ew.SjsConverters._` to get extension methods like `def asJsArray: ew.JsArray[A]` for `js.Array[A]` (and equivalents for other supported Scala.js types).
+Import `com.raquo.ew._` to get all types and implicits. Convert Scala types to **ew** types using `ew` extension methods (or factories like `JsArray.from(scalaJsArray)`), and use the `asScalaJs` methods on `ew` types to go back. These conversions are zero-cost at runtime, they're just `.asInstanceOf`.
 
-See how this library is used in [Airstream](https://github.com/raquo/Airstream) and [Laminar](https://github.com/raquo/Laminar).
 
 
 ## Browser Compatibility

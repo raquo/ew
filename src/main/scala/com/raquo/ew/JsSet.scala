@@ -33,14 +33,14 @@ class JsSet[A]() extends JsIterable[A] {
   /**
    * Alias for `values`.
    *
-   * !! Not supported by IE
+   * !! Not supported by IE !!
    */
   def keys(): JsIterable[A] with js.Iterator[A] = js.native
 
-  /** !! Not supported by IE */
+  /** !! Not supported by IE !! */
   def values(): JsIterable[A] with js.Iterator[A] = js.native
 
-  /** !! Not supported by IE */
+  /** !! Not supported by IE !! */
   //def entries(): JsIterable[js.Tuple2[A, A]] with js.Iterator[js.Tuple2[A, A]] = js.native
 
   def clear(): Unit = js.native
@@ -60,18 +60,17 @@ class JsSet[A]() extends JsIterable[A] {
 object JsSet {
 
   /** Cast a js.Set to JsSet. It's safe because they have the same runtime representation. */
-  @inline def fromScalaJs[A](set: js.Set[A]): JsSet[A] = set.asInstanceOf[JsSet[A]]
+  @inline def from[A](set: js.Set[A]): JsSet[A] = set.asInstanceOf[JsSet[A]]
 
   implicit class RichJsSet[A](val set: JsSet[A]) extends AnyVal {
 
     def asJsIterable: JsIterable[A] = set: JsIterable[A]
 
-    def asScalaJsSet: js.Set[A] = set.asInstanceOf[js.Set[A]]
+    def asScalaJs: js.Set[A] = set.asInstanceOf[js.Set[A]]
   }
 
-  // #Note you need to import this for the implicit to be available
   class RichScalaJsSet[A](val set: js.Set[A]) extends AnyVal {
 
-    def asJsSet: JsSet[A] = fromScalaJs(set)
+    def ew: JsSet[A] = from(set)
   }
 }

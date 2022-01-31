@@ -6,14 +6,14 @@ import scala.scalajs.js.annotation.JSName
 @js.native
 trait JsIterable[+A] extends js.Object {
 
-  /** !! Not supported by IE! */
+  /** !! Not supported by IE !! */
   @JSName(js.Symbol.iterator)
   def iterator: js.Iterator[A] = js.native
 }
 
 object JsIterable {
 
-  @inline def fromScalaJs[A](iterable: js.Iterable[A]): JsIterable[A] = iterable.asInstanceOf[JsIterable[A]]
+  @inline def from[A](iterable: js.Iterable[A]): JsIterable[A] = iterable.asInstanceOf[JsIterable[A]]
 
   implicit class RichJsIterable[A](val iterable: JsIterable[A]) extends AnyVal {
 
@@ -28,7 +28,7 @@ object JsIterable {
     //  does exist on its subclasses Array, Set, and Map that we care about. Regardless,
     //  this method is hidden behind `ext` mostly because we don't want this method
     //  implementation to override the implementation of `forEach` in JsArray. Maybe
-    //  there's a better way to accomplish this, not sure.
+    //  there's a better way to reliably accomplish this, not sure.
     def forEach(f: js.Function1[A, Unit]): Unit = {
       var entry = iterable.iterator.next()
       while (!entry.done) {
@@ -39,6 +39,6 @@ object JsIterable {
   }
 
   class RichScalaJsIterable[A](val iterable: js.Iterable[A]) extends AnyVal {
-    def asJsIterable: JsIterable[A] = fromScalaJs(iterable)
+    def asJsIterable: JsIterable[A] = from(iterable)
   }
 }

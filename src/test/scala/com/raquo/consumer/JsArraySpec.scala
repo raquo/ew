@@ -1,6 +1,6 @@
-package com.raquo.ew
+package com.raquo.consumer
 
-import com.raquo.ew.SjsConverters.enrichSjsArray
+import com.raquo.ew._
 import org.scalatest.funspec.AnyFunSpec
 
 class JsArraySpec extends AnyFunSpec {
@@ -26,7 +26,7 @@ class JsArraySpec extends AnyFunSpec {
       assert(x(0) == 5)
       assert(x(1) == 6)
 
-      val y = x.asScalaJsArray
+      val y = x.asScalaJs
       assert(y.length == 2)
       assert(y(0) == 5)
       assert(y(1) == 6)
@@ -52,7 +52,7 @@ class JsArraySpec extends AnyFunSpec {
       assert(x(0) == foo1)
       assert(x(1) == foo2)
 
-      val y = x.asScalaJsArray
+      val y = x.asScalaJs
       assert(y.length == 2)
       assert(y(0) == foo1)
       assert(y(1) == foo2)
@@ -61,8 +61,8 @@ class JsArraySpec extends AnyFunSpec {
       assert(y.contains(foo1copy))
       assert(!y.contains(foo3)) // Scala semantics
 
-      assert(y.asJsArray eq x)
-      assert(JsArray.fromScalaJs(y) eq x)
+      assert(y.ew eq x)
+      assert(JsArray.from(y) eq x)
     }
   }
 }

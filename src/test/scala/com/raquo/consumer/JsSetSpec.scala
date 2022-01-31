@@ -1,6 +1,6 @@
-package com.raquo.ew
+package com.raquo.consumer
 
-import com.raquo.ew.SjsConverters.enrichSjsSet
+import com.raquo.ew._
 import org.scalatest.funspec.AnyFunSpec
 
 class JsSetSpec extends AnyFunSpec {
@@ -24,15 +24,15 @@ class JsSetSpec extends AnyFunSpec {
 
     // --
 
-    val sjsSet = s.asScalaJsSet
+    val sjsSet = s.asScalaJs
     assert(sjsSet.size == 2)
 
     assert(sjsSet.contains(foo1))
     assert(sjsSet.contains(foo2))
     assert(!sjsSet.contains(foo1copy)) // Scala.js apparently does not have Scala semantics here either
 
-    assert(sjsSet.asJsSet eq s)
-    assert(JsSet.fromScalaJs(sjsSet) eq s)
+    assert(sjsSet.ew eq s)
+    assert(JsSet.from(sjsSet) eq s)
 
     // --
 

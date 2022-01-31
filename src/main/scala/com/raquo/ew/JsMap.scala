@@ -27,13 +27,13 @@ class JsMap[K, V]() extends JsIterable[js.Tuple2[K, V]] {
 
   def has(key: K): Boolean = js.native
 
-  /** !! Not supported by IE */
+  /** !! Not supported by IE !! */
   def keys(): JsIterable[K] with js.Iterator[K] = js.native
 
-  /** !! Not supported by IE */
+  /** !! Not supported by IE !! */
   def values(): JsIterable[V] with js.Iterator[V] = js.native
 
-  /** !! Not supported by IE */
+  /** !! Not supported by IE !! */
   def entries(): JsIterable[js.Tuple2[K, V]] with js.Iterator[js.Tuple2[K, V]] = js.native
 
   def clear(): Unit = js.native
@@ -47,19 +47,18 @@ class JsMap[K, V]() extends JsIterable[js.Tuple2[K, V]] {
 
 object JsMap {
 
-  /** Cast a js.Set to JsSet. It's safe because they have the same runtime representation. */
-  @inline def fromScalaJs[K, V](map: js.Map[K, V]): JsMap[K, V] = map.asInstanceOf[JsMap[K, V]]
+  /** Cast a js.Map to JsMap. It's safe because they have the same runtime representation. */
+  @inline def from[K, V](map: js.Map[K, V]): JsMap[K, V] = map.asInstanceOf[JsMap[K, V]]
 
   implicit class RichJsMap[K, V](val map: JsMap[K, V]) extends AnyVal {
 
     def asJsIterable: JsIterable[js.Tuple2[K, V]] = map: JsIterable[js.Tuple2[K, V]]
 
-    def asScalaJsSet: js.Map[K, V] = map.asInstanceOf[js.Map[K, V]]
+    def asScalaJs: js.Map[K, V] = map.asInstanceOf[js.Map[K, V]]
   }
 
-  // #Note you need to import this for the implicit to be available
   class RichScalaJsMap[K, V](val map: js.Map[K, V]) extends AnyVal {
 
-    def asJsMap: JsMap[K, V] = fromScalaJs(map)
+    def ew: JsMap[K, V] = from(map)
   }
 }

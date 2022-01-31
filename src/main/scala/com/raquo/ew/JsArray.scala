@@ -139,7 +139,7 @@ object JsArray extends Object {
 
   // @TODO The `apply` method calls into js.Array because instantiating an array of
   //  one integer requires syntax like `[5]` in Javascript, and I don't know how
-  //  to get Scala.js to generate such JS code.
+  //  to get Scala.js to generate such JS code aside from using js.Array.
   //    Note: `Array(5)` in JS creates an array with 5 empty slots instead of an
   //    array with an element `5` in it.
 
@@ -162,14 +162,14 @@ object JsArray extends Object {
   /**
    * Creates a new array from a JS iterable (array, set, map, etc.).
    *
-   * !! Not supported by IE
+   * !! Not supported by IE !!
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
    */
   def from[A](iterable: JsIterable[A]): JsArray[A] = rawJsArray.from(iterable)
 
   /** Cast a js.Array to JsArray. It's safe because they have the same runtime representation. */
-  @inline def fromScalaJs[A](arr: js.Array[A]): JsArray[A] = arr.asInstanceOf[JsArray[A]]
+  @inline def from[A](arr: js.Array[A]): JsArray[A] = arr.asInstanceOf[JsArray[A]]
 
   // --
 
@@ -187,13 +187,12 @@ object JsArray extends Object {
 
     def asJsIterable: JsIterable[A] = arr: JsIterable[A]
 
-    def asScalaJsArray: js.Array[A] = arr.asInstanceOf[js.Array[A]]
+    def asScalaJs: js.Array[A] = arr.asInstanceOf[js.Array[A]]
   }
 
-  // #Note you need to import this for the implicit to be available
   class RichScalaJsArray[A](val arr: js.Array[A]) extends AnyVal {
 
-    def asJsArray: JsArray[A] = fromScalaJs(arr)
+    def ew: JsArray[A] = from(arr)
   }
 
   // --
