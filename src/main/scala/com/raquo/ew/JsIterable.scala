@@ -13,11 +13,14 @@ trait JsIterable[+A] extends js.Object {
 
 object JsIterable {
 
+  @inline def fromScalaJs[A](iterable: js.Iterable[A]): JsIterable[A] = iterable.asInstanceOf[JsIterable[A]]
+
   implicit class RichJsIterable[A](val iterable: JsIterable[A]) extends AnyVal {
+
     def asScalaJsIterable: js.Iterable[A] = iterable.asInstanceOf[js.Iterable[A]]
   }
 
-  implicit class RichScalaJsIterable[A](val iterable: js.Iterable[A]) extends AnyVal {
-    def asJsIterable: JsIterable[A] = iterable.asInstanceOf[JsIterable[A]]
+  class RichScalaJsIterable[A](val iterable: js.Iterable[A]) extends AnyVal {
+    def asJsIterable: JsIterable[A] = fromScalaJs(iterable)
   }
 }

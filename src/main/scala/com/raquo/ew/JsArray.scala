@@ -53,8 +53,6 @@ class JsArray[A] extends JsIterable[A] {
 
   def map[B](project: js.Function1[A, B]): JsArray[B] = js.native
 
-  def forEach(cb: js.Function1[A, Any]): Unit = js.native
-
   /**
    * Create a new array consisting of the elements in the this object
    * on which it is called, followed in order by, for each argument, the
@@ -176,6 +174,16 @@ object JsArray extends Object {
   // --
 
   implicit class RichJsArray[A](val jsArray: JsArray[A]) extends AnyVal {
+
+    /** Note: this implementation is faster than calling into JS native `forEach`. */
+    def forEach(cb: js.Function1[A, Any]): Unit = {
+      var i = 0
+      val len = jsArray.length
+      while (i < len) {
+        cb(jsArray(i))
+        i += 1
+      }
+    }
 
     def asScalaJsArray: js.Array[A] = jsArray.asInstanceOf[js.Array[A]]
   }

@@ -1,6 +1,6 @@
 # Contributing
 
-The interfaces defined in this library are not very complete, I started with just what I needed.
+The set of interfaces defined in this library is not very complete, I started with just what I needed.
 
 PRs for missing methods are welcome, assuming they fit the theme.
 

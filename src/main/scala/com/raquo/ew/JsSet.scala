@@ -49,6 +49,11 @@ class JsSet[A]() extends JsIterable[A] {
 
   def size: Int = js.native
 
+  /**
+   * Note: this might be a bit slower than Scala.js `js.Set.foreach` implementation in
+   * some browsers, however the native JS method works in IE 11, whereas the Scala.js
+   * implementation uses JS iterables, which are not supported in any IE version.
+   */
   def forEach(f: js.Function1[A, Unit]): Unit = js.native
 }
 
