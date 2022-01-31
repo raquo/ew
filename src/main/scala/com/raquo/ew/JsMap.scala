@@ -50,14 +50,16 @@ object JsMap {
   /** Cast a js.Set to JsSet. It's safe because they have the same runtime representation. */
   @inline def fromScalaJs[K, V](map: js.Map[K, V]): JsMap[K, V] = map.asInstanceOf[JsMap[K, V]]
 
-  implicit class RichJsMap[K, V](val jsMap: JsMap[K, V]) extends AnyVal {
+  implicit class RichJsMap[K, V](val map: JsMap[K, V]) extends AnyVal {
 
-    def asScalaJsSet: js.Map[K, V] = jsMap.asInstanceOf[js.Map[K, V]]
+    def asJsIterable: JsIterable[js.Tuple2[K, V]] = map: JsIterable[js.Tuple2[K, V]]
+
+    def asScalaJsSet: js.Map[K, V] = map.asInstanceOf[js.Map[K, V]]
   }
 
   // #Note you need to import this for the implicit to be available
-  class RichScalaJsMap[K, V](val sjsMap: js.Map[K, V]) extends AnyVal {
+  class RichScalaJsMap[K, V](val map: js.Map[K, V]) extends AnyVal {
 
-    def asJsMap: JsMap[K, V] = fromScalaJs(sjsMap)
+    def asJsMap: JsMap[K, V] = fromScalaJs(map)
   }
 }

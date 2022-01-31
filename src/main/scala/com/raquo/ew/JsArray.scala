@@ -173,25 +173,27 @@ object JsArray extends Object {
 
   // --
 
-  implicit class RichJsArray[A](val jsArray: JsArray[A]) extends AnyVal {
+  implicit class RichJsArray[A](val arr: JsArray[A]) extends AnyVal {
 
     /** Note: this implementation is faster than calling into JS native `forEach`. */
     def forEach(cb: js.Function1[A, Any]): Unit = {
       var i = 0
-      val len = jsArray.length
+      val len = arr.length
       while (i < len) {
-        cb(jsArray(i))
+        cb(arr(i))
         i += 1
       }
     }
 
-    def asScalaJsArray: js.Array[A] = jsArray.asInstanceOf[js.Array[A]]
+    def asJsIterable: JsIterable[A] = arr: JsIterable[A]
+
+    def asScalaJsArray: js.Array[A] = arr.asInstanceOf[js.Array[A]]
   }
 
   // #Note you need to import this for the implicit to be available
-  class RichScalaJsArray[A](val sjsArray: js.Array[A]) extends AnyVal {
+  class RichScalaJsArray[A](val arr: js.Array[A]) extends AnyVal {
 
-    def asJsArray: JsArray[A] = fromScalaJs(sjsArray)
+    def asJsArray: JsArray[A] = fromScalaJs(arr)
   }
 
   // --
