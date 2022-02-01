@@ -8,7 +8,7 @@ trait JsIterable[+A] extends js.Object {
 
   /** !! Not supported by IE !! */
   @JSName(js.Symbol.iterator)
-  def iterator: js.Iterator[A] = js.native
+  def iterator(): js.Iterator[A] = js.native
 }
 
 object JsIterable {
@@ -30,10 +30,11 @@ object JsIterable {
     //  implementation to override the implementation of `forEach` in JsArray. Maybe
     //  there's a better way to reliably accomplish this, not sure.
     def forEach(f: js.Function1[A, Unit]): Unit = {
-      var entry = iterable.iterator.next()
+      val iterator = iterable.iterator()
+      var entry = iterator.next()
       while (!entry.done) {
         f(entry.value)
-        entry = iterable.iterator.next()
+        entry = iterator.next()
       }
     }
   }

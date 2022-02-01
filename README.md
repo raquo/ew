@@ -63,7 +63,7 @@ Basically, **ew** defaults to native JS implementation, unless a different imple
 
 ## Resources
 
-* [Scala.js semantics](https://www.scala-js.org/doc/semantics.html)
+* [Scala.js semantics](https://www.scala-js.org/doc/semantics.html) – Differences in behaviour from Scala on JVM
 * [Cross-Platform Language Design](https://lampwww.epfl.ch/~doeraene/thesis/) – Sébastien's Scala.js PhD thesis
 * [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference) – Frontend developer's best friend 
 
