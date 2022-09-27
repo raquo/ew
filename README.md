@@ -15,7 +15,7 @@
 
 When we program in [Scala.js](https://www.scala-js.org/), we are happy and chill. We don't normally need to worry about JavaScript semantics. We generally treat `js.Array` as if it's part of Scala collections library.
 
-However, the underlying JavaScript types don't naturally know anything about Scala semantics, and reconciling that has a cost. For example, finding an index of a certain value in an array is exceptionally fast in plain JavaScript because JS arrays are heavily optimized in every browser engine. However, what if this `js.Array` contains Scala case classes? The browser engine knows nothing about Scala's `equals` method and the case classes' structural equality semantics, so on its own it would produce results that don't always make sense in Scala.
+However, the underlying JavaScript types don't naturally know anything about Scala semantics, and reconciling that has a cost. For example, finding an index of a certain value in an array is exceptionally fast in plain JavaScript because JS arrays are heavily optimized in every browser engine. However, what if this `js.Array` contains instances of a Scala case class? The browser engine knows nothing about Scala's `equals` method and the case classes' structural equality semantics, so on its own it would produce results that don't always make sense in Scala.
 
 Well, that wouldn't cut it for us, Scala connoisseurs, would it? And so Scala.js takes care of this behind the scenes. You can find Scala.js' implementation of `js.Array`'s `indexOf` method in their [ArrayOps](https://github.com/scala-js/scala-js/blob/main/library/src/main/scala-new-collections/scala/scalajs/js/ArrayOps.scala) file. As you can see it has to iterate over the array to apply Scala equality checks, and that has no chance of being as fast as the browser engine's C++ implementation of `indexOf`.
 
@@ -48,7 +48,7 @@ Note that some **Scala.js** methods are not supported by all browsers either. Fo
 
 Scala.js attempts to preserve Scala semantics for JS types, but **ew** does not. The main concern are equality checks: native JS types use only reference equality to compare objects, they're not aware of Scala's `equals` method or case classes' structural equality. Aside from the obvious effect on methods like `indexOf`, this also affects the uniqueness checks of `Set` values and `Map` keys.
 
-Note that Scala.js itself does not _always_ wrap JS types with Scala semantics. For example, `js.Array#contains` does perform Scala equality checks, whereas `js.Map#contains` does not, because that's not really feasible. Of course in practice that's not a huge deal – Scala has proper Maps in its own collections library, so `js.Map` is used mostly for interop with JS libraries where JS values are expected.
+Note that Scala.js itself does not _always_ wrap JS types with Scala semantics. For example, `js.Array#contains` does perform Scala equality checks, whereas `js.Map#contains` does not, because that's not really feasible. Of course in practice that's not a huge deal – Scala has proper Maps in its own collections library, so `js.Map` is used mostly for interop with JS libraries where JS values are expected (and Scala semantics are not needed).
 
 
 ## Performance
