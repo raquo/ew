@@ -32,7 +32,8 @@ class JsArray[A] extends JsIterable[A] {
   /** Length of the array. */
   def length: Int = js.native
 
-  /** Set the length of the array.
+  /**
+   * Set the length of the array.
    *
    * If the new length is bigger than the old length, created slots are
    * filled with `undefined` (irrespective of the type argument `A`!).
@@ -51,7 +52,60 @@ class JsArray[A] extends JsIterable[A] {
   @JSBracketAccess
   def update(index: Int, value: A): Unit = js.native
 
+  /**
+   * Create a new array populated with the results of calling a provided function
+   * on every element in the calling array.
+   */
   def map[B](project: js.Function1[A, B]): JsArray[B] = js.native
+
+  @JSName("map")
+  def mapWithIndex[B](project: js.Function2[A, Int, B]): JsArray[B] = js.native
+
+  /** Create a shallow copy of a portion of a given array, filtered down to just the elements
+   * from the given array that pass the test implemented by the provided function.
+   */
+  def filter(passes: js.Function1[A, Boolean]): JsArray[A] = js.native
+
+  @JSName("filter")
+  def filter(passes: js.Function2[A, Int, Boolean]): JsArray[A] = js.native
+
+  /**
+   * @param f (accumulator, nextValue) => nextAccumulator
+   *          On first call of `f`, `accumulator` is `array[0]`, and `nextValue` is `array[1]`.
+   *
+   * If array only has one item, array[0] is returned without calling `f`.
+   *
+   * Note: throws exception if array is empty.
+   */
+  def reduce(f: js.Function2[A, A, A]): A = js.native
+
+  /**
+   * @param f (accumulator, nextValue) => nextAccumulator
+   *          On first call of `f`, `accumulator` is `initial`, and `nextValue` is `array[0]`
+   *
+   * If array is empty or only has one item, `initial` is returned without calling `f`.
+   */
+  def reduce[B](f: js.Function2[B, A, B], initial: B): B = js.native
+
+  /**
+   * @param f (accumulator, nextValue, nextIndex) => nextAccumulator
+   *          On first call of `f`, `accumulator` is `array[0]`, and `nextValue` is `array[1]`.
+   *
+   * If array only has one item, array[0] is returned without calling `f`.
+   *
+   * Note: throws exception if array is empty.
+   */
+  @JSName("reduce")
+  def reduceWithIndex(f: js.Function3[A, A, Int, A]): A = js.native
+
+  /**
+   * @param f (accumulator, nextValue, nextIndex) => nextAccumulator
+   *          On first call of `f`, `accumulator` is `initial`, and `nextValue` is `array[0]`
+   *
+   * If array is empty or only has one item, `initial` is returned without calling `f`.
+   */
+  @JSName("reduce")
+  def reduceWithIndex[B](f: js.Function3[B, A, Int, B], initial: B): B = js.native
 
   /**
    * Create a new array consisting of the elements in the this object
@@ -73,6 +127,8 @@ class JsArray[A] extends JsIterable[A] {
 
   /**
    * Remove the last element from an array and returns that element.
+   *
+   * Returns js.undefined if array is empty.
    */
   def pop(): A = js.native
 
@@ -90,6 +146,8 @@ class JsArray[A] extends JsIterable[A] {
 
   /**
    * Remove the first element from an array and return that element.
+   *
+   * Returns js.undefined if array is empty.
    */
   def shift(): A = js.native
 
@@ -137,11 +195,22 @@ class JsArray[A] extends JsIterable[A] {
 
 object JsArray extends Object {
 
+  // #TODO[API] Consider making a more restricted type which only has non-mutable methods.
+  //  I think it would be a good idea, just too much work for now.
+  /* If you have a value of this type, the creator of that value is asking you
+   * to avoid mutating it. The value is still mutable, because JS Arrays are
+   * mutable whether we like it or not, but you must take care not to mutate it.
+   *
+   * Avoid exposing values of this type to end users of your library unless the
+   * performance benefit of using JsArray is really worth it.
+   */
+  type DoNotMutate[A] = JsArray[A]
+
   // @TODO The `apply` method calls into js.Array because instantiating an array of
   //  one integer requires syntax like `[5]` in Javascript, and I don't know how
   //  to get Scala.js to generate such JS code aside from using js.Array.
   //    Note: `Array(5)` in JS creates an array with 5 empty slots instead of an
-  //    array with an element `5` in it.
+  //    array with an element `5` in it, as [5] does.
 
   /**
    * Creates a new array with the given items, equivalent to `[item1, item2, ...]` literal
@@ -181,6 +250,16 @@ object JsArray extends Object {
       val len = arr.length
       while (i < len) {
         cb(arr(i))
+        i += 1
+      }
+    }
+
+    /** Similar to the native two-argument version of forEach */
+    def forEachWithIndex(cb: js.Function2[A, Int, Any]): Unit = {
+      var i = 0
+      val len = arr.length
+      while (i < len) {
+        cb(arr(i), i)
         i += 1
       }
     }
