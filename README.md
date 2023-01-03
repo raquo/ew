@@ -1,7 +1,7 @@
 # ew
-
-[![Join the chat at https://gitter.im/Laminar_/Lobby](https://badges.gitter.im/Laminar_/Lobby.svg)](https://gitter.im/Laminar_/Lobby)
-![Maven Central](https://img.shields.io/maven-central/v/com.raquo/ew_sjs1_2.13.svg)
+[![Build status](https://github.com/raquo/ew/actions/workflows/test.yml/badge.svg)](https://github.com/raquo/ew/actions/workflows/test.yml)
+[![Chat on https://discord.gg/JTrUxhq7sj](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/JTrUxhq7sj)
+[![Maven Central](https://img.shields.io/maven-central/v/com.raquo/ew_sjs1_3.svg)](https://search.maven.org/artifact/com.raquo/ew_sjs1_3)
 
 **ew** _(pronounced as \<unfathomable disgust\>)_ is a collection of Scala.js interfaces to native JavaScript data structures (such as arrays and maps) that offers sometimes significant performance advantages by sacrificing Scala semantics (such as structural equality of case classes).
 
