@@ -3,8 +3,6 @@ resolvers ++= Resolver.sonatypeOssRepos("public")
 
 enablePlugins(ScalaJSPlugin)
 
-enablePlugins(ScalaJSBundlerPlugin)
-
 libraryDependencies ++= Seq(
   "org.scalatest" %%% "scalatest" % Versions.ScalaTest % Test
 )
@@ -59,16 +57,6 @@ scalacOptions += {
 (Compile / doc / scalacOptions) ++= Seq(
   "-no-link-warnings" // Suppress scaladoc "Could not find any member to link for" warnings
 )
-
-(installJsdom / version) := Versions.JsDom
-
-(webpack / version) := Versions.Webpack
-
-(startWebpackDevServer / version) := Versions.WebpackDevServer
-
-useYarn := true
-
-(Test / requireJsDomEnv) := true
 
 (Test / parallelExecution) := false
 

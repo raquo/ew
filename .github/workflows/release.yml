@@ -1,8 +1,10 @@
 name: Release
+
 on:
   push:
     branches: [publish]
     tags: ["*"]
+
 jobs:
   publish:
     runs-on: ubuntu-22.04
