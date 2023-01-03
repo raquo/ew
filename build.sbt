@@ -1,3 +1,6 @@
+// Lets me depend on Maven Central artifacts immediately without waiting
+resolvers ++= Resolver.sonatypeOssRepos("public")
+
 enablePlugins(ScalaJSPlugin)
 
 enablePlugins(ScalaJSBundlerPlugin)
