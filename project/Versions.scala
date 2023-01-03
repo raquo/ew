@@ -9,4 +9,8 @@ object Versions {
   val ScalaTest = "3.2.14"
 
   val JsDom = "20.0.3"
+
+  val Webpack = "5.75.0"
+
+  val WebpackDevServer = "4.11.1"
 }

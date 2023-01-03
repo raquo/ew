@@ -62,6 +62,10 @@ scalacOptions += {
 
 (installJsdom / version) := Versions.JsDom
 
+(webpack / version) := Versions.Webpack
+
+(startWebpackDevServer / version) := Versions.WebpackDevServer
+
 useYarn := true
 
 (Test / requireJsDomEnv) := true

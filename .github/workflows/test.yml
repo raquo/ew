@@ -13,10 +13,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
-      - name: Setup JDK
-        uses: olafurpg/setup-scala@v13
+          node-version: "18"
+      - name: Setup JVM
+        uses: actions/setup-java@v3
         with:
-          java-version: adopt@1.11
+          java-version: '11'
+          distribution: 'adopt'
       - name: Run tests
         run: sbt +test
