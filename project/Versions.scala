@@ -6,6 +6,8 @@ object Versions {
 
   val Scala_3 = "3.2.0"
 
+  // -- Test --
+
   val ScalaTest = "3.2.14"
 
   val JsDom = "20.0.3"
