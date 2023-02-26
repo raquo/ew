@@ -195,17 +195,6 @@ class JsArray[A] extends JsIterable[A] {
 
 object JsArray extends Object {
 
-  // #TODO[API] Consider making a more restricted type which only has non-mutable methods.
-  //  I think it would be a good idea, just too much work for now.
-  /* If you have a value of this type, the creator of that value is asking you
-   * to avoid mutating it. The value is still mutable, because JS Arrays are
-   * mutable whether we like it or not, but you must take care not to mutate it.
-   *
-   * Avoid exposing values of this type to end users of your library unless the
-   * performance benefit of using JsArray is really worth it.
-   */
-  type DoNotMutate[A] = JsArray[A]
-
   // @TODO The `apply` method calls into js.Array because instantiating an array of
   //  one integer requires syntax like `[5]` in Javascript, and I don't know how
   //  to get Scala.js to generate such JS code aside from using js.Array.
