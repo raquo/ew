@@ -13,8 +13,6 @@ trait JsIterable[+A] extends js.Object {
 
 object JsIterable {
 
-  @inline def from[A](iterable: js.Iterable[A]): JsIterable[A] = iterable.asInstanceOf[JsIterable[A]]
-
   implicit class RichJsIterable[A](val iterable: JsIterable[A]) extends AnyVal {
 
     def ext: JsIterableExt[A] = new JsIterableExt(iterable)
@@ -40,6 +38,7 @@ object JsIterable {
   }
 
   class RichScalaJsIterable[A](val iterable: js.Iterable[A]) extends AnyVal {
-    def asJsIterable: JsIterable[A] = from(iterable)
+
+    def asJsIterable: JsIterable[A] = iterable.asInstanceOf[JsIterable[A]]
   }
 }

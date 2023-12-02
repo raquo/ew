@@ -29,6 +29,8 @@ Despite the inefficiency, this works just fine for most users most of the time. 
 
 Available interfaces: [String](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsString.scala), [Iterable](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsIterable.scala), [Array](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsArray.scala), [Set](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsSet.scala), [Map](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsMap.scala).
 
+Also: [Vector](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/ext/JsVector.scala), and immutable version of Array.
+
 The interfaces defined in **ew** follow the corresponding native JS types very closely. We keep JS names for methods even if they go against Scala naming conventions (so we have `Array.forEach`, not `Array.foreach`). Since such methods lack Scala semantics, we _don't_ actually want to make them look at home in Scala.
 
 See comments in the code for any details. Don't expect a comprehensive explanation of JS semantics, it's something you need to know (or test) yourself. See also how this library is used in [Airstream](https://github.com/raquo/Airstream) and [Laminar](https://github.com/raquo/Laminar).
@@ -72,6 +74,8 @@ Basically, **ew** defaults to native JS implementation, unless a different imple
 ## Author
 
 Nikita Gazarov – [@raquo](https://twitter.com/raquo)
+
+Please [sponsor my open source work](https://github.com/sponsors/raquo) to make it more sustainable.
 
 
 

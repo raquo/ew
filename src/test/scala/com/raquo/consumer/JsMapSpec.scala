@@ -41,7 +41,6 @@ class JsMapSpec extends AnyFunSpec {
     assert(!sjsM.contains(foo1copy)) // Scala.js apparently does not have Scala semantics here either
 
     assert(sjsM.ew eq m)
-    assert(JsMap.from(sjsM) eq m)
 
     // --
 

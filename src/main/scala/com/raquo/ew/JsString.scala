@@ -340,17 +340,17 @@ trait JsString extends JsIterable[String] {
 
 object JsString {
 
-  @inline def from(str: String): JsString = str.asInstanceOf[JsString]
-
   implicit class RichJsString(val self: JsString) extends AnyVal {
 
     @inline def str: String = asScalaJs
 
+    /** Cast a JsString to scala.String. It's safe because they have the same runtime representation. */
     def asScalaJs: String = self.asInstanceOf[String]
   }
 
   class RichString(val str: String) extends AnyVal {
 
-    def ew: JsString = from(str)
+    /** Cast a scala.String JsString. It's safe because they have the same runtime representation. */
+    def ew: JsString = str.asInstanceOf[JsString]
   }
 }

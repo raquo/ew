@@ -62,7 +62,6 @@ class JsArraySpec extends AnyFunSpec {
       assert(!y.contains(foo3)) // Scala semantics
 
       assert(y.ew eq x)
-      assert(JsArray.from(y) eq x)
     }
   }
 }

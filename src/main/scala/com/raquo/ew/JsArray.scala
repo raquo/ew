@@ -1,7 +1,10 @@
 package com.raquo.ew
 
+import com.raquo.ew.ext.JsVector
+
 import scala.scalajs.js
 import scala.scalajs.js.annotation._
+import scala.scalajs.js.|
 
 /**
  * To construct a new array with uninitialized elements, use the constructor
@@ -11,6 +14,8 @@ import scala.scalajs.js.annotation._
  *
  * Note that Javascript `===` equality semantics apply. JsArray does not know
  * anything about Scala `equals` method or the case classes structural equality.
+ *
+ * [[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length Array @ MDN]]
  *
  * @tparam A Type of the elements of the array
  * @constructor Creates a new array of length 0.
@@ -40,7 +45,7 @@ class JsArray[A] extends JsIterable[A] {
    *
    * If the new length is smaller than the old length, the array is shrunk.
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length
+   * [[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length Array.length @ MDN]]
    */
   def length_=(v: Int): Unit = js.native
 
@@ -67,7 +72,7 @@ class JsArray[A] extends JsIterable[A] {
   def filter(passes: js.Function1[A, Boolean]): JsArray[A] = js.native
 
   @JSName("filter")
-  def filter(passes: js.Function2[A, Int, Boolean]): JsArray[A] = js.native
+  def filterWithIndex(passes: js.Function2[A, Int, Boolean]): JsArray[A] = js.native
 
   /**
    * @param f (accumulator, nextValue) => nextAccumulator
@@ -77,7 +82,7 @@ class JsArray[A] extends JsIterable[A] {
    *
    * Note: throws exception if array is empty.
    */
-  def reduce(f: js.Function2[A, A, A]): A = js.native
+  def reduce[B](f: js.Function2[B, A, B]): B = js.native
 
   /**
    * @param f (accumulator, nextValue) => nextAccumulator
@@ -96,7 +101,7 @@ class JsArray[A] extends JsIterable[A] {
    * Note: throws exception if array is empty.
    */
   @JSName("reduce")
-  def reduceWithIndex(f: js.Function3[A, A, Int, A]): A = js.native
+  def reduceWithIndex[B](f: js.Function3[B, A, Int, B]): B = js.native
 
   /**
    * @param f (accumulator, nextValue, nextIndex) => nextAccumulator
@@ -112,14 +117,14 @@ class JsArray[A] extends JsIterable[A] {
    * on which it is called, followed in order by, for each argument, the
    * elements of that argument
    */
-  def concat[B >: A](items: JsArray[_ <: B]*): JsArray[B] = js.native
+  def concat[B >: A](items: (JsArray[_ <: B] | JsVector[_ <: B] | js.Array[_ <: B])*): JsArray[B] = js.native
 
-  def indexOf(item: A): Int = js.native
+  def indexOf(item: A, fromIndex: Int = 0): Int = js.native
 
   /**
    * Join all elements of an array into a string.
    *
-   * separator Specifies a string to separate each element of the array.
+   * separator specifies a string to separate each element of the array.
    * The separator is converted to a string if necessary. If omitted, the
    * array elements are separated with a comma.
    */
@@ -167,7 +172,7 @@ class JsArray[A] extends JsIterable[A] {
    * book," not numerical) order. For example, "80" comes before "9" in
    * lexicographic order, but in a numeric sort 9 comes before 80.
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+   * [[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort Array.sort @ MDN]]
    */
   def sort(compareFn: js.Function2[A, A, Int]): JsArray[A] = js.native
 
@@ -191,9 +196,10 @@ class JsArray[A] extends JsIterable[A] {
    * and return the new length of the array.
    */
   def unshift(items: A*): Int = js.native
+
 }
 
-object JsArray extends Object {
+object JsArray {
 
   // @TODO The `apply` method calls into js.Array because instantiating an array of
   //  one integer requires syntax like `[5]` in Javascript, and I don't know how
@@ -206,14 +212,14 @@ object JsArray extends Object {
    *
    * Note:If you want to preallocate N items, use `new JsArray(N)`
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
+   * [[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array Array @ MDN]]
    */
   def apply[A](items: A*): JsArray[A] = js.Array(items: _*).asInstanceOf[JsArray[A]]
 
   /**
    * Returns true if the given value is an array.
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
+   * [[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray Array.isArray @ MDN]]
    */
   def isArray(arg: scala.Any): Boolean = rawJsArray.isArray(arg)
 
@@ -222,16 +228,27 @@ object JsArray extends Object {
    *
    * !! Not supported by IE !!
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
+   * [[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from Array.from @ MDN]]
    */
   def from[A](iterable: JsIterable[A]): JsArray[A] = rawJsArray.from(iterable)
 
-  /** Cast a js.Array to JsArray. It's safe because they have the same runtime representation. */
-  @inline def from[A](arr: js.Array[A]): JsArray[A] = arr.asInstanceOf[JsArray[A]]
+  /**
+    * Creates a new array from js.Array by means of shallow copy.
+    *
+    * !! Not supported by IE !!
+    *
+    * [[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from Array.from @ MDN]]
+    */
+  def from[A](arr: js.Array[A]): JsArray[A] = rawJsArray.from(arr)
 
   // --
 
   implicit class RichJsArray[A](val arr: JsArray[A]) extends AnyVal {
+
+    /** Note: the browser's native `includes` method does not work in IE11. This one does. */
+    def includes(item: A, fromIndex: Int = 0): Boolean = {
+      arr.indexOf(item, fromIndex) != -1
+    }
 
     /** Note: this implementation is faster than calling into JS native `forEach`. */
     def forEach(cb: js.Function1[A, Any]): Unit = {
@@ -256,21 +273,39 @@ object JsArray extends Object {
     def asJsIterable: JsIterable[A] = arr: JsIterable[A]
 
     def asScalaJs: js.Array[A] = arr.asInstanceOf[js.Array[A]]
+
+    /**
+      * Unsafe because JsVector users assume it's immutable,
+      * but the original array can be used to mutate it.
+      */
+    def unsafeAsJsVector: JsVector[A] = arr.asInstanceOf[JsVector[A]]
   }
+
+  // --
 
   class RichScalaJsArray[A](val arr: js.Array[A]) extends AnyVal {
 
-    def ew: JsArray[A] = from(arr)
+    def ew: JsArray[A] = arr.asInstanceOf[JsArray[A]]
+
+    /**
+      * Unsafe because JsVector users assume it's immutable,
+      * but the original array can be used to mutate it.
+      */
+    def unsafeAsJsVector: JsVector[A] = arr.asInstanceOf[JsVector[A]]
   }
 
   // --
 
   @js.native
   @JSGlobal("Array")
-  private object rawJsArray extends js.Object {
+  private[ew] object rawJsArray extends js.Object {
 
     def isArray(arg: scala.Any): Boolean = js.native
 
+    /** Create a shallow copy of the array */
+    def from[A](array: js.Array[A]): JsArray[A] = js.native
+
+    /** Create a shallow copy of the iterable as an array */
     def from[A](iterable: JsIterable[A]): JsArray[A] = js.native
   }
 }

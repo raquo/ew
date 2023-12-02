@@ -32,7 +32,6 @@ class JsSetSpec extends AnyFunSpec {
     assert(!sjsSet.contains(foo1copy)) // Scala.js apparently does not have Scala semantics here either
 
     assert(sjsSet.ew eq s)
-    assert(JsSet.from(sjsSet) eq s)
 
     // --
 
