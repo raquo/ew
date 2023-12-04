@@ -3,6 +3,8 @@ package com.raquo.ew
 import scala.scalajs.js
 import scala.scalajs.js.|
 
+// #TODO[API] Should JsString be JsIterable? Seems like it gives more room for confusion than usefulness in practice
+
 /** JS-native operations on strings. Alternative to `JSStringOps` from Scala.js */
 @js.native
 trait JsString extends JsIterable[String] {
@@ -351,6 +353,6 @@ object JsString {
   class RichString(val str: String) extends AnyVal {
 
     /** Cast a scala.String JsString. It's safe because they have the same runtime representation. */
-    def ew: JsString = str.asInstanceOf[JsString]
+    @inline def ew: JsString = str.asInstanceOf[JsString]
   }
 }

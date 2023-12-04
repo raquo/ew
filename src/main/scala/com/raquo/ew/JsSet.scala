@@ -61,15 +61,13 @@ object JsSet {
 
   implicit class RichJsSet[A](val set: JsSet[A]) extends AnyVal {
 
-    def asJsIterable: JsIterable[A] = set: JsIterable[A]
-
     /** Cast a JsSet to js.Set. It's safe because they have the same runtime representation. */
-    def asScalaJs: js.Set[A] = set.asInstanceOf[js.Set[A]]
+    @inline def asScalaJs: js.Set[A] = set.asInstanceOf[js.Set[A]]
   }
 
   class RichScalaJsSet[A](val set: js.Set[A]) extends AnyVal {
 
     /** Cast a js.Set to JsSet. It's safe because they have the same runtime representation. */
-    def ew: JsSet[A] = set.asInstanceOf[JsSet[A]]
+    @inline def ew: JsSet[A] = set.asInstanceOf[JsSet[A]]
   }
 }

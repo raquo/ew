@@ -1,6 +1,6 @@
-package com.raquo.ew.ext
+package com.raquo.ew
 
-import com.raquo.ew.{JsArray, JsIterable, ewArray}
+import com.raquo.ew.JsArray.rawJsArray
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation._
@@ -15,6 +15,9 @@ import scala.scalajs.js.|
   *
   * Conversions to/from mutable js.Array and JsArray are available for interop,
   * but are marked "unsafe".
+  *
+  * Note that js.Array, JsArray, and JsVector are indistinguishable at runtime,
+  * so .isInstanceOf on one of those types will succeed on any of them.
   *
   * To construct a new JsVector with uninitialized elements, use the constructor
   * of this class. To construct a new array with specified elements, as if
@@ -59,7 +62,8 @@ class JsVector[+A] extends JsIterable[A] {
   @JSName("map")
   def mapWithIndex[B](project: js.Function2[A, Int, B]): JsVector[B] = js.native
 
-  /** Create a shallow copy of a portion of a given array, filtered down to just the elements
+  /**
+    * Create a shallow copy of a portion of a given array, filtered down to just the elements
     * from the given array that pass the test implemented by the provided function.
     */
   def filter(passes: js.Function1[A, Boolean]): JsVector[A] = js.native
@@ -136,25 +140,40 @@ object JsVector {
     */
   def apply[A](items: A*): JsVector[A] = js.Array(items: _*).asInstanceOf[JsVector[A]]
 
-  /**
-    * Creates a new array from a JS iterable (array, set, map, etc.).
-    *
-    * Unsafe because JsVector users assume that it's immutable,
-    * but the original iterable (array / map / etc.) can be used to mutate it.
-    *
-    * !! Not supported by IE !!
-    *
-    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
-    */
-  def unsafeFrom[A](iterable: JsIterable[A]): JsVector[A] = JsArray.rawJsArray.from(iterable).asInstanceOf[JsVector[A]]
+  /** Copy an array into a new vector */
+  def from[A](items: JsIterable[A]): JsVector[A] = {
+    rawJsArray.from(items).unsafeAsJsVector
+  }
 
-  /**
-    * Cast a js.Array to JsVector.
-    *
-    * Unsafe because JsVector users assume that it's immutable,
-    * but the original array can be used to mutate it.
-    */
-  @inline def unsafeFrom[A](arr: js.Array[A]): JsVector[A] = arr.asInstanceOf[JsVector[A]]
+  /** Copy an array into a new vector */
+  def from[A, B](items: JsIterable[A], mapFn: js.Function2[A, Int, B]): JsVector[B] = {
+    rawJsArray.from(items, mapFn).unsafeAsJsVector
+  }
+
+  /** Copy an array into a new vector */
+  def from[A](items: js.Iterable[A]): JsVector[A] = {
+    rawJsArray.from(items).unsafeAsJsVector
+  }
+
+  /** Copy an array into a new vector */
+  def from[A, B](items: js.Iterable[A], mapFn: js.Function2[A, Int, B]): JsVector[B] = {
+    rawJsArray.from(items, mapFn).unsafeAsJsVector
+  }
+
+  /** Copy iterable into a new vector */
+  @inline def from[A](items: Iterable[A]): JsVector[A] = {
+    JsArray.from(items).unsafeAsJsVector
+  }
+
+  /** Copy an array into a new vector */
+  def from[A](items: scala.Array[A]): JsVector[A] = {
+    JsArray.from(items).unsafeAsJsVector
+  }
+
+  /** Make a new array out of js.UndefOr */
+  def from[A](maybeItem: js.UndefOr[A])(implicit dummyImplicit: DummyImplicit): JsVector[A] = {
+    JsArray.from(maybeItem).unsafeAsJsVector
+  }
 
   // --
 
@@ -185,13 +204,13 @@ object JsVector {
       }
     }
 
-    def asJsIterable: JsIterable[A] = arr: JsIterable[A]
-
     /**
       * Unsafe because JsVector users assume it's immutable,
       * but this can be used to mutate it.
       */
-    def unsafeAsScalaJs: js.Array[A] = arr.asInstanceOf[js.Array[A]]
+    @inline def unsafeAsScalaJs: js.Array[A] = arr.asInstanceOf[js.Array[A]]
+
+    @inline def toList: List[A] = arr.unsafeAsScalaJs.toList
   }
 
 }

@@ -17,7 +17,7 @@ object JsIterable {
 
     def ext: JsIterableExt[A] = new JsIterableExt(iterable)
 
-    def asScalaJsIterable: js.Iterable[A] = iterable.asInstanceOf[js.Iterable[A]]
+    @inline def asScalaJsIterable: js.Iterable[A] = iterable.asInstanceOf[js.Iterable[A]]
   }
 
   class JsIterableExt[A](val iterable: JsIterable[A]) extends AnyVal {
@@ -39,6 +39,6 @@ object JsIterable {
 
   class RichScalaJsIterable[A](val iterable: js.Iterable[A]) extends AnyVal {
 
-    def asJsIterable: JsIterable[A] = iterable.asInstanceOf[JsIterable[A]]
+    @inline def asJsIterable: JsIterable[A] = iterable.asInstanceOf[JsIterable[A]]
   }
 }
