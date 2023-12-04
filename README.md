@@ -27,9 +27,9 @@ Despite the inefficiency, this works just fine for most users most of the time. 
 
 ## Documentation
 
-Available interfaces: [String](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsString.scala), [Iterable](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsIterable.scala), [Array](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsArray.scala), [Set](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsSet.scala), [Map](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsMap.scala).
+Available JS interfaces: [String](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsString.scala), [Iterable](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsIterable.scala), [Array](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsArray.scala), [Set](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsSet.scala), [Map](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsMap.scala).
 
-Also: [Vector](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/ext/JsVector.scala), and immutable version of Array.
+Also: [Vector](https://github.com/raquo/ew/blob/master/src/main/scala/com/raquo/ew/JsVector.scala) – a JS Array in an immutable trenchcoat.
 
 The interfaces defined in **ew** follow the corresponding native JS types very closely. We keep JS names for methods even if they go against Scala naming conventions (so we have `Array.forEach`, not `Array.foreach`). Since such methods lack Scala semantics, we _don't_ actually want to make them look at home in Scala.
 
@@ -61,6 +61,12 @@ I did not check every method's performance, only the ones that I was personally 
 
 Basically, **ew** defaults to native JS implementation, unless a different implementation is known to offer an equivalent API with superior performance. It would be nice to set up proper benchmarks for every method, but I don't have time for that. I have _very_ rudimentary benchmarks in my [laminar-examples](https://github.com/raquo/laminar-examples) repo (see MiscBenchmarks file). Contributions of a better test setup are welcome!
 
+
+## Changelog
+
+No time to write changelog for this project, sorry. Some notable breaking changes will be announced in Laminar [release blog posts](https://laminar.dev/blog/), but otherwise you'll need to rely on the Scala compiler to tell you what's wrong.
+
+Versions 0.N.0 and 0.(N+1).0 are not supposed to be compatible. 
 
 
 ## Resources
