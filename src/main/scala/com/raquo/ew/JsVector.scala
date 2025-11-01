@@ -170,9 +170,10 @@ object JsVector {
     JsArray.from(items).unsafeAsJsVector
   }
 
+  // #TODO[Scala] This method should be called `from`, but because js.UndefOr is a union, we run into https://github.com/scala/scala3/issues/23511
   /** Make a new array out of js.UndefOr */
-  def from[A](maybeItem: js.UndefOr[A])(implicit dummyImplicit: DummyImplicit): JsVector[A] = {
-    JsArray.from(maybeItem).unsafeAsJsVector
+  def fromUndefOr[A](maybeItem: js.UndefOr[A])(implicit dummyImplicit: DummyImplicit): JsVector[A] = {
+    JsArray.fromUndefOr(maybeItem).unsafeAsJsVector
   }
 
   // --
