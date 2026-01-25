@@ -47,6 +47,8 @@ class JsMap[K, V]() extends JsIterable[js.Tuple2[K, V]] {
 
 object JsMap {
 
+  def empty[K, V]: JsMap[K, V] = js.Map().asInstanceOf[JsMap[K, V]]
+
   implicit class RichJsMap[K, V](val map: JsMap[K, V]) extends AnyVal {
 
     /** Cast a JsMap to js.Map. It's safe because they have the same runtime representation. */

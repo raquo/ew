@@ -206,6 +206,8 @@ object JsArray {
   //    Note: `Array(5)` in JS creates an array with 5 empty slots instead of an
   //    array with an element `5` in it, as [5] does.
 
+  def empty[A]: JsArray[A] = js.Array().asInstanceOf[JsArray[A]]
+
   /**
     * Creates a new array with the given items, equivalent to `[item1, item2, ...]` literal
     *

@@ -59,6 +59,8 @@ class JsSet[A]() extends JsIterable[A] {
 
 object JsSet {
 
+  def empty[A]: JsSet[A] = js.Set().asInstanceOf[JsSet[A]]
+
   implicit class RichJsSet[A](val set: JsSet[A]) extends AnyVal {
 
     /** Cast a JsSet to js.Set. It's safe because they have the same runtime representation. */

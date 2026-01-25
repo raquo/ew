@@ -131,6 +131,8 @@ class JsVector[+A] extends JsIterable[A] {
 
 object JsVector {
 
+  def empty[A]: JsVector[A] = js.Array().asInstanceOf[JsVector[A]]
+
   /**
     * Creates a new array with the given items, equivalent to `[item1, item2, ...]` literal
     *
