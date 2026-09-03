@@ -1,8 +1,8 @@
 package com.raquo.ew
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation._
 import scala.scalajs.js.|
+import scala.scalajs.js.annotation._
 
 /**
   * To construct a new array with uninitialized elements, use the constructor

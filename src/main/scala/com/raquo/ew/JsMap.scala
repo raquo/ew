@@ -4,15 +4,15 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSGlobal
 
 /**
- * The Map object holds key-value pairs and remembers the original insertion
- * order of the keys. Any value (both objects and primitive values) may be used
- * as either a key or a value. The Map is mutable, like everything in JS.
- *
- * Note that Javascript `===` equality semantics apply. JsMap does not know
- * anything about Scala `equals` method or the case classes structural equality.
- *
- * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
- */
+  * The Map object holds key-value pairs and remembers the original insertion
+  * order of the keys. Any value (both objects and primitive values) may be used
+  * as either a key or a value. The Map is mutable, like everything in JS.
+  *
+  * Note that Javascript `===` equality semantics apply. JsMap does not know
+  * anything about Scala `equals` method or the case classes structural equality.
+  *
+  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+  */
 @js.native
 @JSGlobal("Map")
 class JsMap[K, V]() extends JsIterable[js.Tuple2[K, V]] {

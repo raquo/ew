@@ -3,8 +3,8 @@ package com.raquo.ew
 import com.raquo.ew.JsArray.rawJsArray
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation._
 import scala.scalajs.js.|
+import scala.scalajs.js.annotation._
 
 /**
   * JsVector is a [[JsArray]] that pretends to be immutable by only exposing
