@@ -8,6 +8,8 @@ target
 project/metals.sbt
 project/project
 
+.buildkit
+
 .DS_Store
 
 yarn.lock

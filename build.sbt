@@ -1,17 +1,17 @@
-import VersionHelper.{versionFmt, fallbackVersion}
-
-// Makes sure to increment the version for local development
-ThisBuild / version := dynverGitDescribeOutput.value
-  .mkVersion(out => versionFmt(out, dynverSonatypeSnapshots.value), fallbackVersion(dynverCurrentDate.value))
-
-ThisBuild / dynver := {
-  val d = new java.util.Date
-  sbtdynver.DynVer
-    .getGitDescribeOutput(d)
-    .mkVersion(out => versionFmt(out, dynverSonatypeSnapshots.value), fallbackVersion(d))
-}
-
 enablePlugins(ScalaJSPlugin)
+
+ThisBuild / buildKitDownloads := Seq(
+  _.fromGithubTag(
+    repo = "raquo/scalafmt-config",
+    filePath = ".scalafmt.shared.conf",
+    tag = "v0.1.0"
+  ).withDoNotEditComment(_.`#`)
+)
+
+// Auto-increment version for local development
+ThisBuild / version := buildKitDynVer.version.value
+
+ThisBuild / dynver := buildKitDynVer.dynver.value
 
 libraryDependencies ++= Seq(
   "org.scalatest" %%% "scalatest" % Versions.ScalaTest % Test
@@ -34,13 +34,7 @@ scalacOptions ~= { options: Seq[String] =>
   ))
 }
 
-scalacOptions ++= sys.env.get("CI").map { _ =>
-  val localSourcesPath = (LocalRootProject / baseDirectory).value.toURI
-  val remoteSourcesPath = s"https://raw.githubusercontent.com/raquo/ew/${git.gitHeadCommit.value.get}/"
-  val sourcesOptionName = if (scalaVersion.value.startsWith("2.")) "-P:scalajs:mapSourceURI" else "-scalajs-mapSourceURI"
-
-  s"${sourcesOptionName}:$localSourcesPath->$remoteSourcesPath"
-}
+scalacOptions += pointScalaJsSourceMapsToGithub("raquo/ew").value
 
 (Test / scalacOptions) ~= { options: Seq[String] =>
   options.filterNot { o =>
