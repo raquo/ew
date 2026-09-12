@@ -21,8 +21,8 @@ jobs:
         with:
           node-version: "22"
           # cache: "npm"
-      - name: Install Node.js test dependencies
-        run: npm install
+#      - name: Install Node.js test dependencies
+#        run: npm install
       - name: Setup JVM
         uses: actions/setup-java@v3
         with:
