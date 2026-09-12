@@ -6,8 +6,8 @@ addSbtPlugin("com.github.sbt" % "sbt-git" % "2.1.0")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.2")
 
-addSbtPlugin("com.raquo" % "sbt-buildkit" % "0.2.0-M1")
+addSbtPlugin("com.raquo" % "sbt-buildkit" % "0.2.0")
 
-addSbtPlugin("com.raquo" % "sbt-buildkit-scalajs" % "0.2.0-M1")
+addSbtPlugin("com.raquo" % "sbt-buildkit-scalajs" % "0.2.0")
 
-addSbtPlugin("com.raquo" % "sbt-buildkit-dynver" % "0.2.0-M1")
+addSbtPlugin("com.raquo" % "sbt-buildkit-dynver" % "0.2.0")
