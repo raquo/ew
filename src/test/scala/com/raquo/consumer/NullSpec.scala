@@ -59,8 +59,6 @@ class NullSpec extends AnyFunSpec {
       value
   }
 
-
-
   it("asUndefined: null values become js.undefined") {
     // #Note: Scala bug does not allow asserting with .isEmpty / .nonEmpty: https://github.com/scala/scala3/issues/27066
 
